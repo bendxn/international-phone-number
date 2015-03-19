@@ -1,5 +1,7 @@
-# Author Marek Pietrucha
-# https://github.com/mareczek/international-phone-number
+###
+Author Marek Pietrucha
+https://github.com/mareczek/international-phone-number
+###
 
 "use strict"
 angular.module("internationalPhoneNumber", []).directive 'internationalPhoneNumber', () ->
