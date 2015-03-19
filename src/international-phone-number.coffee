@@ -73,7 +73,6 @@ angular.module("internationalPhoneNumber", []).directive 'internationalPhoneNumb
       if value
         validity = element.intlTelInput("isValidNumber")
         ctrl.$setValidity 'international-phone-number', validity
-        ctrl.$setValidity '', validity
       else
         value = ''
         delete ctrl.$error['international-phone-number']
