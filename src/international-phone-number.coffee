@@ -18,11 +18,7 @@ angular.module("internationalPhoneNumber", []).directive 'internationalPhoneNumb
     read = () ->
       ctrl.$setViewValue element.val()
 
-    handleWhatsSupposedToBeAnArray = (value) ->
-      if value instanceof Array
-        value
-      else
-        value.toString().replace(/[ ]/g, '').split(',')
+    options = scope.options || {};
 
     # Wait for ngModel to be set
     watchOnce = scope.$watch('ngModel', (newValue) ->
@@ -31,9 +27,9 @@ angular.module("internationalPhoneNumber", []).directive 'internationalPhoneNumb
         if newValue != null and newValue != undefined and newValue != ''
           element.val newValue
         
-        element.intlTelInput(scope.options)
+        element.intlTelInput(options)
 
-        unless scope.options.skipUtilScriptDownload != undefined || scope.options.utilsScript
+        unless options.skipUtilScriptDownload != undefined || options.utilsScript
           element.intlTelInput('loadUtils', '/bower_components/intl-tel-input/lib/libphonenumber/build/utils.js')
       
         watchOnce()

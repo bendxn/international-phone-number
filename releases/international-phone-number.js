@@ -16,24 +16,18 @@ https://github.com/mareczek/international-phone-number
         options: '=internationalPhoneNumber'
       },
       link: function(scope, element, attrs, ctrl) {
-        var handleWhatsSupposedToBeAnArray, read, watchOnce;
+        var options, read, watchOnce;
         read = function() {
           return ctrl.$setViewValue(element.val());
         };
-        handleWhatsSupposedToBeAnArray = function(value) {
-          if (value instanceof Array) {
-            return value;
-          } else {
-            return value.toString().replace(/[ ]/g, '').split(',');
-          }
-        };
+        options = scope.options || {};
         watchOnce = scope.$watch('ngModel', function(newValue) {
           return scope.$$postDigest(function() {
             if (newValue !== null && newValue !== void 0 && newValue !== '') {
               element.val(newValue);
             }
-            element.intlTelInput(scope.options);
-            if (!(scope.options.skipUtilScriptDownload !== void 0 || scope.options.utilsScript)) {
+            element.intlTelInput(options);
+            if (!(options.skipUtilScriptDownload !== void 0 || options.utilsScript)) {
               element.intlTelInput('loadUtils', '/bower_components/intl-tel-input/lib/libphonenumber/build/utils.js');
             }
             return watchOnce();
