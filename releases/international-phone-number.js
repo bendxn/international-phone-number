@@ -13,10 +13,10 @@ https://github.com/mareczek/international-phone-number
       require: '^ngModel',
       scope: {
         ngModel: '=',
-        defaultCountry: '@'
+        options: '=internationalPhoneNumber'
       },
       link: function(scope, element, attrs, ctrl) {
-        var handleWhatsSupposedToBeAnArray, options, read, watchOnce;
+        var handleWhatsSupposedToBeAnArray, read, watchOnce;
         read = function() {
           return ctrl.$setViewValue(element.val());
         };
@@ -27,41 +27,13 @@ https://github.com/mareczek/international-phone-number
             return value.toString().replace(/[ ]/g, '').split(',');
           }
         };
-        options = {
-          autoFormat: true,
-          autoHideDialCode: true,
-          defaultCountry: '',
-          nationalMode: false,
-          numberType: '',
-          onlyCountries: void 0,
-          preferredCountries: ['us', 'gb'],
-          responsiveDropdown: false,
-          utilsScript: ""
-        };
-        angular.forEach(options, function(value, key) {
-          var option;
-          if (!(attrs.hasOwnProperty(key) && angular.isDefined(attrs[key]))) {
-            return;
-          }
-          option = attrs[key];
-          if (key === 'preferredCountries') {
-            return options.preferredCountries = handleWhatsSupposedToBeAnArray(option);
-          } else if (key === 'onlyCountries') {
-            return options.onlyCountries = handleWhatsSupposedToBeAnArray(option);
-          } else if (typeof value === "boolean") {
-            return options[key] = option === "true";
-          } else {
-            return options[key] = option;
-          }
-        });
         watchOnce = scope.$watch('ngModel', function(newValue) {
           return scope.$$postDigest(function() {
-            options.defaultCountry = scope.defaultCountry;
             if (newValue !== null && newValue !== void 0 && newValue !== '') {
               element.val(newValue);
             }
-            element.intlTelInput(options);
-            if (!(attrs.skipUtilScriptDownload !== void 0 || options.utilsScript)) {
+            element.intlTelInput(scope.options);
+            if (!(scope.options.skipUtilScriptDownload !== void 0 || scope.options.utilsScript)) {
               element.intlTelInput('loadUtils', '/bower_components/intl-tel-input/lib/libphonenumber/build/utils.js');
             }
             return watchOnce();

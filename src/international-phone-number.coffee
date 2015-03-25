@@ -9,8 +9,8 @@ angular.module("internationalPhoneNumber", []).directive 'internationalPhoneNumb
   restrict:   'A'
   require: '^ngModel'
   scope: {
-    ngModel: '='
-    defaultCountry: '@'
+    ngModel: '=',
+    options: '=internationalPhoneNumber'
   }
 
   link: (scope, element, attrs, ctrl) ->
@@ -24,48 +24,21 @@ angular.module("internationalPhoneNumber", []).directive 'internationalPhoneNumb
       else
         value.toString().replace(/[ ]/g, '').split(',')
 
-    options =
-      autoFormat:         true
-      autoHideDialCode:   true
-      defaultCountry:     ''
-      nationalMode:       false
-      numberType:         ''
-      onlyCountries:      undefined
-      preferredCountries: ['us', 'gb']
-      responsiveDropdown: false
-      utilsScript:        ""
-
-    angular.forEach options, (value, key) ->
-      return unless attrs.hasOwnProperty(key) and angular.isDefined(attrs[key])
-      option = attrs[key]
-      if key == 'preferredCountries'
-        options.preferredCountries = handleWhatsSupposedToBeAnArray option
-      else if key == 'onlyCountries'
-        options.onlyCountries = handleWhatsSupposedToBeAnArray option
-      else if typeof(value) == "boolean"
-        options[key] = (option == "true")
-      else
-        options[key] = option
-
     # Wait for ngModel to be set
     watchOnce = scope.$watch('ngModel', (newValue) ->
       # Wait to see if other scope variables were set at the same time
       scope.$$postDigest ->
-        options.defaultCountry = scope.defaultCountry
-        
         if newValue != null and newValue != undefined and newValue != ''
           element.val newValue
         
-        element.intlTelInput(options)
+        element.intlTelInput(scope.options)
 
-        unless attrs.skipUtilScriptDownload != undefined || options.utilsScript
+        unless scope.options.skipUtilScriptDownload != undefined || scope.options.utilsScript
           element.intlTelInput('loadUtils', '/bower_components/intl-tel-input/lib/libphonenumber/build/utils.js')
       
         watchOnce()
 
     )
-
-
 
     ctrl.$parsers.push (value) ->
       return value if !value
