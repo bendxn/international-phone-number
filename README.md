@@ -24,20 +24,6 @@ Default options
 --
 Same as in source project (https://github.com/Bluefieldscom/intl-tel-input)
 
-Sneak preview:
-```coffeescript
-    options =
-      autoFormat:         true
-      autoHideDialCode:   true
-      defaultCountry:     ''
-      nationalMode:       false
-      numberType:         ''
-      onlyCountries:      undefined
-      preferredCountries: ['us', 'gb']
-      responsiveDropdown: false
-      utilsScript:        ""
-```
-
 Usage
 ---
 Works for `text` and `tel` input types.
@@ -49,24 +35,24 @@ NgModel is required
 
 with preferred countries:
 ```html
-<input type="text" international-phone-number preferred-countries="pl, de" ng-model="phone">
+<input type="text" international-phone-number="preferredCountries: ['pl', 'de']" ng-model="phone">
 ```
 
 with default country:
 ```html
-<input type="text" international-phone-number default-country="pl" ng-model="phone">
+<input type="text" international-phone-number="{defaultCountry: 'pl'}" ng-model="phone">
 ```
 
 with only contries:
 ```html
-<input type="text" international-phone-number only-countries ng-model="phone">
+<input type="text" international-phone-number="{onlyCountries: ['pl', 'de', 'en', 'es']}" ng-model="phone">
 ```
 
 Feel free to mix options together:
 ```html
-<input type="text" international-phone-number only-countries="pl, de, en, es" default-country="pl" preferred-countries="pl, de" ng-model="phone">
+<input type="text" international-phone-number="{onlyCountries: ['pl', 'de', 'en', 'es'], defaultCountry: 'pl', preferredCountries: ['pl', 'de']}" ng-model="phone">
 ```
 
 Options
 ---
-By default the directive lazy loads utils.js. If you want to load this yourself, use the `skip-util-script-download` attribute.
+By default the directive lazy loads utils.js. If you want to load this yourself, use the `skipUtilScriptDownload` option.
